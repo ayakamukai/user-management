@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', 'UserController@index')->name('index');
+Route::get('/create', 'UserController@create')->name('create');
+Route::post('/store', 'UserController@store')->name('store');
+Route::get('/show/{id}', 'UserController@show')->name('show');
+Route::get('/edit/{id}', 'UserController@edit')->name('edit');
+Route::put('/update/{id}', 'UserController@update')->name('update');
+Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
