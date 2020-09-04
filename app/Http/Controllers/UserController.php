@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\User;
 
 class UserController extends Controller
@@ -20,53 +23,72 @@ class UserController extends Controller
     }
 
     //登録処理
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
 
         $user = new User;
         $user->name = $request->name;
         $user->login_id = $request->login_id;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = bcrypt($request->password);
         $user->save();
 
-        return redirect()->route('index');
+        return redirect()->route('show', ['user' => $user])->with('success', '正常に登録されました！');
     }
 
     //詳細
     public function show($id)
     {
-        $user = User::find($id);
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('index')->withErrors(['ID' => '指定したユーザーが存在しません']);
+        }
+
         return view('user/show', ['user' => $user]);
     }
 
     //編集
     public function edit($id)
     {
-        $user = User::find($id);
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('index')->withErrors(['ID' => '指定したユーザーが存在しません']);
+        }
+
         return view('user/edit', ['user' => $user]);
     }
 
     //更新
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-
-        $user = User::find($id);
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('index')->withErrors(['ID' => '指定したユーザーが存在しません']);
+        }
         $user->name = $request->name;
         $user->login_id = $request->login_id;
         $user->email = $request->email;
-        $user->password = $request->password;
+        if(!empty($request->password)){
+            $user->password = bcrypt($request->password);
+        }
         $user->save();
 
-        return redirect()->route('index');
+        return redirect()->route('index')->with('success', '正常に更新されました！');
     }
 
     //削除
     public function delete($id)
     {
-        $user = User::find($id);
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('index')->withErrors(['ID' => '指定したユーザーが存在しません']);
+        }
         $user->delete();
 
-        return redirect()->route('index');
+        return redirect()->route('index')->with('success', '正常に削除されました！');;
     }
 }

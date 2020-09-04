@@ -12,7 +12,19 @@
 
     <div class="inner-container">
       <div class="m-2 p-3 bg-white">
-        <table class="table table-bordered m-3">
+
+        @if (session('success'))
+          <div class="alert alert-success">
+            {{ session('success') }}
+          </div>
+        @endif
+        @if ($errors->has('ID'))
+        <div class="alert alert-danger">
+          {{ $errors->first('ID') }}
+        </div>
+        @endif
+
+        <table class="table table-bordered">
         <thead class="table-warning">
           <tr>
             <th scope="col-1">ID</th>
