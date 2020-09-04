@@ -42,12 +42,17 @@
           @endforeach
           </tbody>
         </table>
-        <div>
-          {{ $users->links() }}
-        </div>
       </div>
     </div>
+    <div class="pagination justify-content-center">{{ $users->links() }}</div>
   </div>
 </div>
 
+<script>
+$('.delete').click(function(){
+    if(!confirm('本当に削除しますか？')){
+        return false;
+    }
+});
+</script>
 @endsection
