@@ -65,7 +65,7 @@
         <label class="offset-1 col-2">パスワード</label>
         <div class="col-6">
           <input type="password" class="form-control @if ($errors->has('password')) is-invalid @endif" name="password" value="{{ old('password') }}">
-          <small class="form-text text-muted">パスワードは8～32文字の半角英字または半角ハイフンのみ使用可能です</small>
+          <small class="form-text text-muted">パスワードは8～32文字の半角英字、半角ハイフンまたは半角アンダースコアのみ使用可能です</small>
           @if ($errors->has('password'))
             @foreach($errors->get('password') as $message)
              <div class="invalid-feedback">

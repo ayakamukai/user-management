@@ -38,7 +38,7 @@ class UserRequest extends FormRequest
             'between' => 'パスワードは8～32文字で入力してください',
             'login_id.unique' => 'ログインIDが重複しています',
             'email' => '正しい形式で入力してください',
-            'password.regex' => '半角英字または半角ハイフンで入力してください'
+            'password.regex' => '半角英字、半角ハイフンまたは半角アンダースコアで入力してください'
             ];
     }
 
