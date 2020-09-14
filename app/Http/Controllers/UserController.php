@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\User;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -30,7 +30,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->login_id = $request->login_id;
         $user->email = $request->email;
-        $user->password = bcrypt($request->password);
+        $user->password = $request->password;
         $user->save();
 
         return redirect()->route('show', ['user' => $user])->with('success', '正常に登録されました！');
@@ -72,7 +72,7 @@ class UserController extends Controller
         $user->login_id = $request->login_id;
         $user->email = $request->email;
         if(!empty($request->password)){
-            $user->password = bcrypt($request->password);
+            $user->password =$request->password;
         }
         $user->save();
 
