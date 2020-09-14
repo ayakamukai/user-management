@@ -1,12 +1,12 @@
 @extends('user.template')
-@section('title', 'ユーザー管理 - 詳細')
+@section('title', 'ユーザー詳細')
 @section('content')
 
 <div class="container">
   <div class="m-2 p-3 bg-white">
-    <h4 class="mb-5">ユーザー詳細</h4>
+  <h4 class="mb-5">@yield('title')</h4>
 
-    <div class="offset-9 col-2">
+    <div class="offset-9 col-3">
       <a href="{{ route('index') }}">一覧に戻る</a>
     </div>
 
@@ -49,7 +49,7 @@
 
     </div>
   </div>
-  
+
   </div>
 </div>
 @endsection
