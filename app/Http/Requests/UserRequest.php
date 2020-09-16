@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
         return [
             'name'=> ['required','max:255'],
             'login_id'=> ['required','max:255','unique:users'],
-            'email'=> ['email','max:255'],
+            'email'=> ['email','max:255','nullable'],
             'password'=> ['required','between:8,32','regex:/^[a-zA-Z-_]+$/']
         ];
     }
