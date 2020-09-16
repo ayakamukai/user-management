@@ -3,18 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Model
 {
 
     protected $guarded = ['id'];
 
-    Public function getPasswordAttribute($value){
-        return Crypt::decrypt($value);
+    Public function setPasswordAttribute($value){
+        $this->attributes['password'] = Hash::make($value);
     }
 
-    Public function setPasswordAttribute($value){
-        $this->attributes['password'] = Crypt::encrypt($value);
-    }
 }
