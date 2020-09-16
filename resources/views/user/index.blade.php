@@ -1,10 +1,9 @@
 @extends('user.template')
-@section('title', 'ユーザー一覧')
 @section('content')
 
 <div class="container">
   <div class="m-2 p-3 bg-white">
-    <h4 class="mb-5">@yield('title')</h4>
+    <h4 class="mb-5">ユーザー一覧</h4>
 
     <div class="offset-9 col-3">
       <a href="{{ route('create') }}">新規登録</a>
