@@ -50,6 +50,7 @@
         <label class="offset-1 col-2">メールアドレス</label>
         <div class="col-6">
           <input type="text" class="form-control @if ($errors->has('email')) is-invalid @endif" name="email" value="{{ old('email', $user->email) }}">
+          <small class="form-text text-muted">例:abc_123@email.com</small>
           @if ($errors->has('email'))
             @foreach($errors->get('email') as $message)
              <div class="invalid-feedback">

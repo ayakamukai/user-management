@@ -15,7 +15,7 @@
 
     <div class="inner-container"> 
       <div class="m-2 p-3 bg-white">
-      <form action="{{ route('store') }}" method="post" enctype="multipart/form-data">
+      <form action="{{ route('store') }}" method="post">
       {{ csrf_field() }}
       <div class="form-group row">
         <label class="offset-1 col-2">名前</label>
@@ -49,6 +49,7 @@
         <label class="offset-1 col-2">メールアドレス</label>
         <div class="col-6">
           <input type="text" class="form-control @if ($errors->has('email')) is-invalid @endif" name="email" value="{{ old('email') }}">
+          <small class="form-text text-muted">例:abc_123@email.com</small>
           @if ($errors->has('email'))
             @foreach($errors->get('email') as $message)
              <div class="invalid-feedback">
