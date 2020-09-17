@@ -27,7 +27,7 @@ class UserUpdateRequest extends FormRequest
         return [
             'name'=> ['required','max:255'],
             'login_id'=> ['required','max:255', Rule::unique('users')->ignore($this->id)],
-            'email'=> ['email','max:255','nullable'],
+            'email'=> ['required','email','max:255', Rule::unique('users')->ignore($this->id)],
             'password'=> ['nullable','between:8,32','regex:/^[a-zA-Z-_]+$/']
         ];
     }
@@ -36,9 +36,10 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'required' => ':attributeは必須項目です。入力して下さい',
-            'between' => 'パスワードは8～32文字で入力して下さい',
-            'login_id.unique' => 'ログインIDが重複しています。変更して下さい',
-            'email' => '正しいメールアドレス形式で入力して下さい。',
+            'password.between' => ':attributeは8～32文字で入力して下さい',
+            'login_id.unique' => ':attributeが重複しています。変更して下さい',
+            'email.unique' => ':attributeが重複しています。変更して下さい',
+            'email.email' => '正しい:attribute形式で入力して下さい。',
             'max' => ':max文字以内で入力して下さい',
             'password.regex' => '半角英字、半角ハイフンまたは半角アンダースコアで入力して下さい'
             ];
