@@ -35,9 +35,7 @@
       <div class="user-group row">
         <label class="offset-1 col-2">メールアドレス</label>
         <div class="col-6">
-          @if(!empty($user->email)) {{ $user->email }}
-          @else <h6>未登録</h6>
-          @endif
+          {{ $user->email }}
         </div>
       </div>
 
