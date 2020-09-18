@@ -15,8 +15,10 @@ class User extends Model
     }
 
     Public function setPrefectureAttribute($value){
-        if($value = '選択して下さい'){
+        if($value == '選択して下さい'){
             $this->attributes['prefecture'] = null;
+        }else{
+            $this->attributes['prefecture'] = $value;
         }
     }
 

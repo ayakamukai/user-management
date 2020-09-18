@@ -49,7 +49,7 @@ class UserUpdateRequest extends FormRequest
             'password.regex' => '半角英字、半角ハイフンまたは半角アンダースコアで入力して下さい',
             'sex.in' => '男・女から選択して下さい',
             'zip.regex' => '7桁、または半角ハイフンを含む3桁-4桁の形式で入力して下さい',
-            'prefecture' => '都道府県から選択して下さい',
+            'prefecture' => ':attributeから選択して下さい',
             ];
     }
 

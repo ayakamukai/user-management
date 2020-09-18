@@ -25,7 +25,6 @@ class UserController extends Controller
     //登録処理
     public function store(UserRequest $request)
     {
-
         $user = new User;
         $user->name = $request->name;
         $user->login_id = $request->login_id;
