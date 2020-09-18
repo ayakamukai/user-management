@@ -50,7 +50,7 @@
         <label class="offset-1 col-2">メールアドレス</label>
         <div class="col-6">
           <input type="text" class="form-control @if ($errors->has('email')) is-invalid @endif" name="email" value="{{ old('email', $user->email) }}">
-          <small class="form-text text-muted">例:abc_123@email.com</small>
+          <small class="form-text text-muted">記入例：abc_123@email.com</small>
           @if ($errors->has('email'))
             @foreach($errors->get('email') as $message)
              <div class="invalid-feedback">
@@ -65,7 +65,7 @@
         <label class="offset-1 col-2">パスワード</label>
         <div class="col-6">
           <input type="password" class="form-control @if ($errors->has('password')) is-invalid @endif" name="password" value="{{ old('password') }}">
-          <small class="form-text text-muted">パスワードは8～32文字の半角英字、半角ハイフンまたは半角アンダースコアのみ使用可能です</small>
+          <small class="form-text text-muted">パスワードは8～32文字の半角英字、半角ハイフンまたは半角アンダースコアのみ<br>使用可能です</small>
           @if ($errors->has('password'))
             @foreach($errors->get('password') as $message)
              <div class="invalid-feedback">
@@ -76,8 +76,91 @@
         </div>
       </div>
 
+      <div class="form-group row">
+        <label class="offset-1 col-2">性別</label>
+        <div class="col-6">
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="male"　@if(old('sex', $user->sex) == "male") checked @endif>
+            <label class="form-check-label">男</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="female"　@if(old('sex', $user->sex) == "female") checked @endif>
+            <label class="form-check-label">女</label>
+          </div>
+          @if ($errors->has('sex'))
+            @foreach($errors->get('sex') as $message)
+             <div class="invalid-feedback">
+             {{ $message }}
+             </div>
+            @endforeach
+          @endif
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="offset-1 col-2">郵便番号</label>
+        <div class="col-6">
+          <input type="text" class="form-control @if ($errors->has('zip')) is-invalid @endif" name="zip" value="{{ old('zip', $user->zip) }}">
+          <small class="form-text text-muted">記入例：12311111または123-1111</small>
+          @if ($errors->has('zip'))
+            @foreach($errors->get('zip') as $message)
+             <div class="invalid-feedback">
+             {{ $message }}
+             </div>
+            @endforeach
+          @endif
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="offset-1 col-2">都道府県</label>
+        <div class="col-6">
+          <select class="form-control @if($errors->has('prefecture')) is-invalid @endif" name="prefecture">
+            @foreach(config('pref') as $key => $name)
+              <option value="{{ $name }}" @if(old('prefecture', $user->prefecture) == $name) selected @endif>{{ $name }}</option>
+            @endforeach
+          </select>
+          @if ($errors->has('prefecture'))
+            @foreach($errors->get('prefecture') as $message)
+             <div class="invalid-feedback">
+             {{ $message }}
+             </div>
+            @endforeach
+          @endif
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="offset-1 col-2">住所</label>
+        <div class="col-6">
+          <input type="text" class="form-control @if ($errors->has('address')) is-invalid @endif" name="address" value="{{ old('address', $user->address) }}">
+          <small class="form-text text-muted">市区町村以下を記入して下さい</small>
+          @if ($errors->has('address'))
+            @foreach($errors->get('address') as $message)
+             <div class="invalid-feedback">
+             {{ $message }}
+             </div>
+            @endforeach
+          @endif
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="offset-1 col-2">備考</label>
+        <div class="col-6">
+          <textarea class="form-control @if($errors->has('note')) is-invalid @endif" name="note" rows="5">{{ old('note', $user->note) }}</textarea>
+            @if ($errors->has('note'))
+              @foreach($errors->get('note') as $message)
+                <div class="invalid-feedback">
+                {{ $message }}
+                </div>
+              @endforeach
+            @endif
+        </div>
+      </div>
+
       <div class="form-group row m-5">
-       <button class="btn btn-primary offset-4 col-2" type="submit">登録する</button>
+       <button class="btn btn-primary offset-4 col-2" type="submit">更新する</button>
       </div>
     </form>
 
