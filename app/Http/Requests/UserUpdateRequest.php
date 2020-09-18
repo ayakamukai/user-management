@@ -36,7 +36,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'required' => ':attributeは必須項目です。入力して下さい',
-            'password.between' => ':attributeは8～32文字で入力して下さい',
+            'password.between' => ':attributeは:min～:max文字で入力して下さい',
             'login_id.unique' => ':attributeが重複しています。変更して下さい',
             'email.unique' => ':attributeが重複しています。変更して下さい',
             'email.email' => '正しい:attribute形式で入力して下さい。',
