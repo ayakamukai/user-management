@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,11 +14,15 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(User::class, function (Faker $faker) {
+    $createdAt = $faker->dateTimeBetween($startDate = '-6 months', $endDate = '-1 months');
+    $updatedAt = $faker->dateTimeBetween($createdAt->format('Y-m-d H:i:s').' +7 days', $createdAt->format('Y-m-d H:i:s').' +90 days');
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => str_random(10),
+        'name'       => $faker->name,
+        'login_id'   => $faker->unique()->userName,
+        'email'      => $faker->unique()->safeEmail,
+        'password'   => 'hogehoge',
+        'created_at' => $createdAt,
+        'updated_at' => $updatedAt,
     ];
 });
