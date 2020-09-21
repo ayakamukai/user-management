@@ -27,6 +27,10 @@
             .delete:hover{
              text-decoration: underline;
             }
+
+            .textarea {
+                white-space: pre-wrap;
+            }
         </style>
     </head>
     <body>
