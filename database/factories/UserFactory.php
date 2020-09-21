@@ -15,6 +15,7 @@ use App\Models\User;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $prefectures = array_values(config('pref'));
     $createdAt = $faker->dateTimeBetween($startDate = '-6 months', $endDate = '-1 months');
     $updatedAt = $faker->dateTimeBetween($createdAt->format('Y-m-d H:i:s').' +7 days', $createdAt->format('Y-m-d H:i:s').' +90 days');
     return [
@@ -22,6 +23,11 @@ $factory->define(User::class, function (Faker $faker) {
         'login_id'   => $faker->unique()->userName,
         'email'      => $faker->unique()->safeEmail,
         'password'   => 'hogehoge',
+        'sex'        => $faker->randomElement(['male', 'female']),
+        'zip'        => $faker->postcode,
+        'prefecture' => $faker->randomElement($prefectures),
+        'address'    => $faker->city . $faker->streetAddress,
+        'note'       => $faker->realText($faker->numberBetween(10, 20)),
         'created_at' => $createdAt,
         'updated_at' => $updatedAt,
     ];
