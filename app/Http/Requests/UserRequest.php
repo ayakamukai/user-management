@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -23,14 +24,15 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        $prefs = \Config::get('pref');
         return [
             'name'=> ['required','max:255'],
             'login_id'=> ['required','max:255','unique:users'],
             'email'=> ['required','email','max:255','unique:users'],
             'password'=> ['required','between:8,32','regex:/^[a-zA-Z-_]+$/'],
-            'sex'=> ['in:male,female'],
+            'sex'=> [Rule::in(['male', 'female'])],
             'zip'=> ['regex:/^\d{3}[-]\d{4}$|^\d{7}$/','nullable'],
-            'prefercture'=> ['Rule::in(config"pref")'],
+            'prefecture'=> [Rule::in($prefs), 'nullable'],
             'address'=> ['max:255'],
             'note'=> ['max:2000']
         ];
@@ -48,7 +50,7 @@ class UserRequest extends FormRequest
             'password.regex' => '半角英字、半角ハイフンまたは半角アンダースコアで入力して下さい',
             'sex.in' => '男・女から選択して下さい',
             'zip.regex' => '7桁、または半角ハイフンを含む3桁-4桁の形式で入力して下さい',
-            'prefecture' => '都道府県から選択して下さい',
+            'prefecture.in' => ':attributeから選択して下さい',
             ];
     }
 

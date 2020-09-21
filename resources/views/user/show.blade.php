@@ -42,10 +42,7 @@
       <div class="user-group row">
         <label class="offset-1 col-2">性別</label>
         <div class="col-6">
-          @if(!empty($user->sex)) 
-            @if($user->sex == 'male') <h6>男</h6>
-            @elseif($user->sex == 'female') <h6>女</h6>
-            @endif
+          @if(!empty($user->sex)) {{ $user->sex }}
           @else<h6>未登録</h6>
           @endif
         </div>

@@ -88,11 +88,9 @@
             <label class="form-check-label">女</label>
           </div>
           @if ($errors->has('sex'))
-            @foreach($errors->get('sex') as $message)
              <div class="invalid-feedback">
-             {{ $message }}
+             {{ $errors->first('sex') }}
              </div>
-            @endforeach
           @endif
         </div>
       </div>
@@ -116,16 +114,15 @@
         <label class="offset-1 col-2">都道府県</label>
         <div class="col-6">
           <select class="form-control @if($errors->has('prefecture')) is-invalid @endif" name="prefecture">
+            <option value="">選択して下さい</option>
             @foreach(config('pref') as $key => $name)
-              <option value="{{ $name }}" @if(old('prefecture', $user->prefecture) == $name) selected @endif>{{ $name }}</option>
+            <option value="{{ $name }}" @if(old('prefecture', $user->prefecture) == $name) selected @endif>{{ $name }}</option>
             @endforeach
           </select>
           @if ($errors->has('prefecture'))
-            @foreach($errors->get('prefecture') as $message)
-             <div class="invalid-feedback">
-             {{ $message }}
-             </div>
-            @endforeach
+          <div class="invalid-feedback">
+           {{ $errors->first('prefecture') }}
+          </div>
           @endif
         </div>
       </div>
