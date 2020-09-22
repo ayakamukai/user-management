@@ -30,9 +30,9 @@ class UserRequest extends FormRequest
             'login_id'=> ['required','max:255','unique:users'],
             'email'=> ['required','email','max:255','unique:users'],
             'password'=> ['required','between:8,32','regex:/^[a-zA-Z-_]+$/'],
-            'sex'=> [Rule::in(['male', 'female'])],
+            'sex'=> [Rule::in(['male', 'female']),'nullable'],
             'zip'=> ['regex:/^\d{3}[-]\d{4}$|^\d{7}$/','nullable'],
-            'prefecture'=> [Rule::in($prefs), 'nullable'],
+            'prefecture'=> [Rule::in($prefs),'nullable'],
             'address'=> ['max:255'],
             'note'=> ['max:2000']
         ];

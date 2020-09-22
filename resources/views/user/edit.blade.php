@@ -80,11 +80,11 @@
         <label class="offset-1 col-2">性別</label>
         <div class="col-6">
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="male"　@if(old('sex', $user->sex) == "male") checked @endif>
+            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="male"　@if(old('sex') == "male" || $user->sex == "男") checked @endif>
             <label class="form-check-label">男</label>
           </div>
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="female"　@if(old('sex', $user->sex) == "female") checked @endif>
+            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="female"　@if(old('sex') == "female" || $user->sex == "女") checked @endif>
             <label class="form-check-label">女</label>
           </div>
           @if ($errors->has('sex'))
