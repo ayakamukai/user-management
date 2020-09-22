@@ -25,12 +25,16 @@ class UserController extends Controller
     //登録処理
     public function store(UserRequest $request)
     {
-
         $user = new User;
         $user->name = $request->name;
         $user->login_id = $request->login_id;
         $user->email = $request->email;
         $user->password = $request->password;
+        $user->sex = $request->sex;
+        $user->zip = $request->zip;
+        $user->prefecture = $request->prefecture;
+        $user->address = $request->address;
+        $user->note = $request->note;
         $user->save();
 
         return redirect()->route('show', ['user' => $user])->with('success', '正常に登録されました！');
@@ -71,9 +75,12 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->login_id = $request->login_id;
         $user->email = $request->email;
-        if(!empty($request->password)){
-            $user->password =$request->password;
-        }
+        if(!empty($request->password)){ $user->password =$request->password; }
+        $user->sex = $request->sex;
+        $user->zip = $request->zip;
+        $user->prefecture = $request->prefecture;
+        $user->address = $request->address;
+        $user->note = $request->note;
         $user->save();
 
         return redirect()->route('index')->with('success', '正常に更新されました！');

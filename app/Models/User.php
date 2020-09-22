@@ -14,4 +14,12 @@ class User extends Model
         $this->attributes['password'] = Hash::make($value);
     }
 
+    Public function setZipAttribute($value){
+        $this->attributes['zip'] = str_replace('-', '', $value);
+    }
+
+    Public function setNoteAttribute($value){
+        $this->attributes['note'] = e($value);
+    }
+
 }
