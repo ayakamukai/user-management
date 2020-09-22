@@ -80,17 +80,19 @@
         <label class="offset-1 col-2">性別</label>
         <div class="col-6">
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="male"　@if(old('sex') == "male" || $user->sex == "男") checked @endif>
+            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="男"　@if(old('sex', $user->sex) == "男") checked @endif>
             <label class="form-check-label">男</label>
           </div>
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="female"　@if(old('sex') == "female" || $user->sex == "女") checked @endif>
+            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="女"　@if(old('sex', $user->sex) == "女") checked @endif>
             <label class="form-check-label">女</label>
           </div>
           @if ($errors->has('sex'))
-             <div class="invalid-feedback">
-             {{ $errors->first('sex') }}
-             </div>
+            @foreach($errors->get('sex') as $message)
+            <div class="invalid-feedback" style="display:block;">
+             {{ $message }}
+            </div>
+            @endforeach
           @endif
         </div>
       </div>
@@ -120,9 +122,11 @@
             @endforeach
           </select>
           @if ($errors->has('prefecture'))
-          <div class="invalid-feedback">
-           {{ $errors->first('prefecture') }}
-          </div>
+            @foreach($errors->get('prefecture') as $message)
+            <div class="invalid-feedback">
+             {{ $message }}
+            </div>
+            @endforeach
           @endif
         </div>
       </div>

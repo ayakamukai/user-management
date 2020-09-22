@@ -10,15 +10,6 @@ class User extends Model
 
     protected $guarded = ['id'];
 
-    public function getSexAttribute($value)
-    {
-        if($value == 'male'){
-            return '男';
-        }elseif($value == 'female'){
-            return '女';
-        }
-    }
-
     Public function setPasswordAttribute($value){
         $this->attributes['password'] = Hash::make($value);
     }

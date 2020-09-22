@@ -23,7 +23,7 @@ $factory->define(User::class, function (Faker $faker) {
         'login_id'   => $faker->unique()->userName,
         'email'      => $faker->unique()->safeEmail,
         'password'   => 'hogehoge',
-        'sex'        => $faker->randomElement(['male', 'female']),
+        'sex'        => $faker->randomElement(['男', '女']),
         'zip'        => $faker->postcode,
         'prefecture' => $faker->randomElement($prefectures),
         'address'    => $faker->city . $faker->streetAddress,

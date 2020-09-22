@@ -8,7 +8,6 @@
     <div class="offset-9 col-3">
       <a href="{{ route('index') }}">一覧に戻る</a>
     </div>
-
     @if ($errors->any())
       <div class="alert alert-danger">エラーがありました！</div>
     @endif
@@ -79,17 +78,19 @@
         <label class="offset-1 col-2">性別</label>
         <div class="col-6">
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="male"　@if(old('sex') == "male") checked @endif>
+            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="男"　@if(old('sex') == "男") checked @endif>
             <label class="form-check-label">男</label>
           </div>
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="female"　@if(old('sex') == "female") checked @endif>
+            <input type="radio" class="form-check-input @if ($errors->has('sex')) is-invalid @endif" name="sex" value="女"　@if(old('sex') == "女") checked @endif>
             <label class="form-check-label">女</label>
           </div>
           @if ($errors->has('sex'))
-             <div class="invalid-feedback">
-             {{ $errors->first('sex') }}
-             </div>
+            @foreach($errors->get('sex') as $message)
+            <div class="invalid-feedback" style="display:block;">
+             {{ $message }}
+            </div>
+            @endforeach
           @endif
         </div>
       </div>
@@ -119,9 +120,11 @@
             @endforeach
           </select>
           @if ($errors->has('prefecture'))
-          <div class="invalid-feedback">
-           {{ $errors->first('prefecture') }}
-          </div>
+            @foreach($errors->get('prefecture') as $message)
+            <div class="invalid-feedback">
+             {{ $message }}
+            </div>
+            @endforeach
           @endif
         </div>
       </div>
