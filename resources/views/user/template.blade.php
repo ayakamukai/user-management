@@ -28,9 +28,6 @@
              text-decoration: underline;
             }
 
-            .textarea {
-                white-space: pre-wrap;
-            }
         </style>
     </head>
     <body>
