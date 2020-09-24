@@ -13,39 +13,40 @@ class UserController extends Controller
     public function index(Request $request)
     {
     //条件キー
-    $name_key = $request->input('name_key'); 
-    $id_key = $request->input('id_key');
-    $sex_key = $request->input('sex_key');
-    $pref_key = $request->input('pref_key');
-    $from_key = $request->input('from_key');
-    $until_key = $request->input('until_key');
+    $name_key = $request->query('name_key'); 
+    $id_key = $request->query('id_key');
+    $sex_key = $request->query('sex_key');
+    $pref_key = $request->query('pref_key');
+    $from_key = $request->query('from_key');
+    $until_key = $request->query('until_key');
 
     //検索
     $query = User::query();
     if(!empty($name_key)){
-        $query->where('name', 'like', '%'.$name_key.'%');
+      $query->where('name', 'like', '%'.$name_key.'%');
     }
     if(!empty($id_key)){
-        $query->where('login_id', $id_key);
+      $query->where('login_id', $id_key);
     }
     if(!empty($sex_key)){
-        $query->where('sex', $sex_key);
+      $query->where('sex', $sex_key);
     }
     if(!empty($pref_key)){
-        $query->where('prefecture', $pref_key);
+      $query->where('prefecture', $pref_key);
     }
     if(!empty($from_key) && !empty($until_key)){
-        $query->whereBetween('created_at', [$from_key, $until_key]);
+       $query->whereBetween('created_at', [$from_key, $until_key]);
     }elseif(!empty($from_key) && empty($until_key)){
-        $query->where('created_at', '>', $from_key);
+       $query->where('created_at', '>=', $from_key);
     }elseif(empty($from_key) && !empty($until_key)){
-        $query->where('created_at', '<', $until_key);
+       $query->where('created_at', '<=', $until_key);
     }
+
     $results = $query->count();
-    $users = $query->paginate(5);
+    $users = $query->paginate(10);
 
     //戻る用パラメータのセッション
-    $back = http_build_query($request->input());
+    $back = http_build_query($request->query());
     session(['back' => $back]);
 
         return view('user/index', ['users' => $users, 'name_key' => $name_key, 'id_key' => $id_key, 'sex_key' => $sex_key, 'pref_key' => $pref_key, 'from_key' => $from_key, 'until_key' => $until_key, 'results' => $results ]);

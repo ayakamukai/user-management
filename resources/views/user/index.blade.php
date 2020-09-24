@@ -10,28 +10,31 @@
     </div>
     <div class="inner-container">
       <div class="m-2 p-3">
+
       <!-- 検索 -->
         <div class="border mb-5">
           <h6 class="m-3">検索</h6>
             <form method="get" action="{{ route('index') }}">
 
               <div class="row mb-3">
-                <div class="col-1 ml-5">
+                <div class="offset-1 col-1">
                   <label class="control-label">名前</label>
                 </div>
                 <div class="col-3">
                   <input type="text" class="form-control" name="name_key" value="{{ isset($name_key) ? $name_key : ''}}"/>
                 </div>
-                <div class="col-2 ml-5">
+                <div class="col-2">
                   <label class="control-label">ログインID</label>
                 </div>
-                <div class="col-3 mr-5">
+                <div class="col-3">
                   <input type="text" class="form-control" name="id_key" value="{{ isset($id_key) ? $id_key : ''}}"/>
+                </div>
+                <div class="offset-2">
                 </div>
               </div>
 
               <div class="row mb-3">
-                <div class="col-1 ml-5">
+                <div class="offset-1 col-1">
                   <label class="control-label">性別</label>
                 </div>
                 <div class="col-3">
@@ -45,7 +48,7 @@
                   </div>
                 </diV>
             
-                <div class="col-2 ml-5">
+                <div class="col-2">
                   <label class="control-label">都道府県</label>
                 </div>
                 <div class="col-3">
@@ -56,15 +59,19 @@
                      @endforeach
                   </select>
                 </div>
+                <div class="offset-2">
+                </div>
               </div>
 
               <div class="row mb-3">
-                <div class="col-1 ml-5">
+                <div class="offset-1 col-1">
                   <label class="control-label">登録日</label>
                 </div>
                 <div class="col-6 form-inline">
                   <input type="date" class="form-control" name="from_key" id="from_key" value="{{ isset($from_key) ? $from_key : '' }}"> ～ 
                   <input type="date" class="form-control" name="until_key" id="until_key" value="{{ isset($until_key) ? $until_key : '' }}">
+                </div>
+                <div class="offset-4">
                 </div>
               </div>
 
@@ -72,10 +79,8 @@
                   <button type="submit" class="btn btn-info col-2 mr-2" id="search_btn">検索</button>
                   <button type="button" class="btn btn-light col-2" onClick="jClear();">クリア</button>
                 </div>
-
               </form>
         </div>
-
 
       <!-- アラート -->
         @if (session('success'))
@@ -88,11 +93,15 @@
           {{ $errors->first('ID') }}
         </div>
         @endif
+
         <!-- 一覧 -->
         @if(count($users) > 0)
-        <div class="col-2 mb-3">
-        <h5>{{ $results }}件</h5>
+        <div class="row">
+          <div class="col-2 mb-3">
+            <h5>{{ $results }}件</h5>
+          </div>
         </div>
+
         <table class="table table-bordered">
           <thead class="table-warning">
             <tr>
@@ -124,6 +133,11 @@
           </tbody>
         </table>
         @else
+        <div class="row">
+          <div class="col-2 mb-3">
+            <h5>{{ $results }}件</h5>
+          </div>
+        </div>
         <h5>該当のユーザー登録がありません</h5>
       　@endif
       </div>
