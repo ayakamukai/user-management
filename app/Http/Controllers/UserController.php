@@ -78,25 +78,31 @@ class UserController extends Controller
     //詳細
     public function show($id)
     {
+         //戻るリンク用のパラメータ
+        $back_link = session('back');       
+
         try {
             $user = User::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return redirect()->route('index')->withErrors(['ID' => '指定したユーザーが存在しません']);
         }
 
-        return view('user/show', ['user' => $user]);
+        return view('user/show', ['user' => $user, 'back_link' => $back_link]);
     }
 
     //編集
     public function edit($id)
     {
+        //戻るリンク用のパラメータ
+        $back_link = session('back');  
+        
         try {
             $user = User::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return redirect()->route('index')->withErrors(['ID' => '指定したユーザーが存在しません']);
         }
 
-        return view('user/edit', ['user' => $user]);
+        return view('user/edit', ['user' => $user, 'back_link' => $back_link]);
     }
 
     //更新
