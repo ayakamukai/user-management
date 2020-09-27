@@ -6,7 +6,7 @@
     <h4 class="mb-5">ユーザー編集</h4>
 
     <div class="offset-9 col-3">
-      <a href="{{ route('index') }}">一覧に戻る</a>
+      <a href="{{ route('index') }}?{!! $back_link !!}">一覧に戻る</a>
     </div>
     @if ($errors->any())
       <div class="alert alert-danger">エラーがありました！</div>

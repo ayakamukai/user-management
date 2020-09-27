@@ -2,15 +2,86 @@
 @section('content')
 
 <div class="container">
-  <div class="m-2 p-3 bg-white">
+  <div class="m-2 p-3">
     <h4 class="mb-5">ユーザー一覧</h4>
 
     <div class="offset-9 col-3">
       <a href="{{ route('create') }}">新規登録</a>
     </div>
-
     <div class="inner-container">
-      <div class="m-2 p-3 bg-white">
+      <div class="m-2 p-3">
+
+      <!-- 検索 -->
+        <div class="border mb-5">
+          <h6 class="m-3">検索</h6>
+            <form method="get" action="{{ route('index') }}">
+
+              <div class="row mb-3">
+                <div class="offset-1 col-1">
+                  <label class="control-label">名前</label>
+                </div>
+                <div class="col-3">
+                  <input type="text" class="form-control" name="name_key" value="{{ isset($name_key) ? $name_key : ''}}"/>
+                </div>
+                <div class="col-2">
+                  <label class="control-label">ログインID</label>
+                </div>
+                <div class="col-3">
+                  <input type="text" class="form-control" name="id_key" value="{{ isset($id_key) ? $id_key : ''}}"/>
+                </div>
+                <div class="offset-2">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="offset-1 col-1">
+                  <label class="control-label">性別</label>
+                </div>
+                <div class="col-3">
+                  <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" name="sex_key" value="男" @if (isset($sex_key) && $sex_key == '男') checked @endif>
+                    <label class="form-check-label">男</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" name="sex_key" value="女" @if (isset($sex_key) && $sex_key == '女') checked @endif>
+                    <label class="form-check-label">女</label>
+                  </div>
+                </diV>
+            
+                <div class="col-2">
+                  <label class="control-label">都道府県</label>
+                </div>
+                <div class="col-3">
+                  <select class="form-control" name="pref_key" id="pref_key">
+                    <option value="" id="null">選択して下さい</option>
+                     @foreach(config('pref') as $key => $name)
+                    <option value="{{ $name }}" @if (isset($pref_key) && $pref_key == $name) selected @endif>{{ $name }}</option>
+                     @endforeach
+                  </select>
+                </div>
+                <div class="offset-2">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="offset-1 col-1">
+                  <label class="control-label">登録日</label>
+                </div>
+                <div class="col-6 form-inline">
+                  <input type="date" class="form-control" name="from_key" id="from_key" value="{{ isset($from_key) ? $from_key : '' }}"> ～ 
+                  <input type="date" class="form-control" name="until_key" id="until_key" value="{{ isset($until_key) ? $until_key : '' }}">
+                </div>
+                <div class="offset-4">
+                </div>
+              </div>
+
+                <div class="form-group text-center m-4">
+                  <button type="submit" class="btn btn-info col-2 mr-2" id="search_btn">検索</button>
+                  <button type="button" class="btn btn-light col-2" onClick="jClear();">クリア</button>
+                </div>
+              </form>
+        </div>
+
       <!-- アラート -->
         @if (session('success'))
           <div class="alert alert-success">
@@ -22,8 +93,15 @@
           {{ $errors->first('ID') }}
         </div>
         @endif
+
         <!-- 一覧 -->
         @if(count($users) > 0)
+        <div class="row">
+          <div class="col-2 mb-3">
+            <h5>{{ $results }}件</h5>
+          </div>
+        </div>
+
         <table class="table table-bordered">
           <thead class="table-warning">
             <tr>
@@ -55,19 +133,38 @@
           </tbody>
         </table>
         @else
-        <h5>ユーザー登録がありません</h5>
+        <div class="row">
+          <div class="col-2 mb-3">
+            <h5>{{ $results }}件</h5>
+          </div>
+        </div>
+        <h5>該当のユーザー登録がありません</h5>
       　@endif
       </div>
     </div>
-    <div class="pagination justify-content-center">{{ $users->links() }}</div>
+    <div class="pagination justify-content-center">{{ $users->appends(['name_key' => $name_key, 'id_key' => $id_key, 'sex_key' => $sex_key, 'pref_key' => $pref_key, 'from_key' => $from_key, 'until_key' => $until_key])->links() }}</div>
   </div>
 </div>
 
 <script>
+//削除
 $('.delete').click(function(){
     if(!confirm('本当に削除しますか？')){
         return false;
     }
 });
+
+//クリア
+function jClear() {
+  document.forms[0].name_key.value = "";
+  document.forms[0].id_key.value = "";
+  document.forms[0].sex_key[0].checked = false;
+  document.forms[0].sex_key[1].checked = false;
+  var obj = document.getElementById('pref_key'); 
+  obj.selectedIndex = "#null";
+  document.forms[0].from_key.value = "";
+  document.forms[0].until_key.value = "";
+  }
+
 </script>
 @endsection
