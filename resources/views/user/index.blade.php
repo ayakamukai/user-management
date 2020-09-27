@@ -77,9 +77,9 @@
 
                 <div class="form-group text-center m-4">
                   <button type="submit" class="btn btn-info col-2 mr-2" id="search_btn">検索</button>
-                  <button type="button" class="btn btn-light col-2" onClick="jClear();">クリア</button>
-                </div>
               </form>
+                <a href="{{ route('index') }}"><button class="btn btn-light col-2" onClick="jClear();">クリア</button></a>
+              </div>
         </div>
 
       <!-- アラート -->
@@ -153,18 +153,6 @@ $('.delete').click(function(){
         return false;
     }
 });
-
-//クリア
-function jClear() {
-  document.forms[0].name_key.value = "";
-  document.forms[0].id_key.value = "";
-  document.forms[0].sex_key[0].checked = false;
-  document.forms[0].sex_key[1].checked = false;
-  var obj = document.getElementById('pref_key'); 
-  obj.selectedIndex = "#null";
-  document.forms[0].from_key.value = "";
-  document.forms[0].until_key.value = "";
-  }
 
 </script>
 @endsection
