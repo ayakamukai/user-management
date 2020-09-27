@@ -100,6 +100,18 @@
           <div class="col-2 mb-3">
             <h5>{{ $results }}件</h5>
           </div>
+          <div class="col-10">
+            <form action="{{ route('export') }}" method="post">
+            {{ csrf_field() }}
+              <input type="hidden" name="name_key" value="{{ isset($name_key) ? $name_key : ''}}"/>
+              <input type="hidden" name="id_key" value="{{ isset($id_key) ? $id_key : ''}}"/>
+              <input type="hidden" name="sex_key" value="{{ isset($sex_key) ? $sex_key : ''}}">
+              <input type="hidden" name="pref_key" value="{{ isset($pref_key) ? $pref_key : ''}}">
+              <input type="hidden" name="from_key" value="{{ isset($from_key) ? $from_key : ''}}">
+              <input type="hidden" name="until_key" value="{{ isset($until_key) ? $suntilkey : ''}}">
+              <button class="btn btn-success float-right">CSVダウンロード</button>
+            </form>
+          </div>
         </div>
 
         <table class="table table-bordered">
@@ -142,7 +154,7 @@
       　@endif
       </div>
     </div>
-    <div class="pagination justify-content-center">{{ $users->appends(['name_key' => $name_key, 'id_key' => $id_key, 'sex_key' => $sex_key, 'pref_key' => $pref_key, 'from_key' => $from_key, 'until_key' => $until_key])->links() }}</div>
+    <div class="pagination justify-content-center">{{ $users->appends(request()->all())->links() }}</div>
   </div>
 </div>
 
