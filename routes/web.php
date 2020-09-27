@@ -22,3 +22,4 @@ Route::get('/show/{id}', 'UserController@show')->name('show');
 Route::get('/edit/{id}', 'UserController@edit')->name('edit');
 Route::put('/update/{id}', 'UserController@update')->name('update');
 Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
+Route::post('/export', 'UserController@export')->name('export');

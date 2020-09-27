@@ -142,4 +142,45 @@ class UserController extends Controller
 
         return redirect()->route('index')->with('success', '正常に削除されました！');;
     }
+
+    //CSVダウンロード
+    public function export(Request $request)
+    {
+        //ユーザー情報(仮)
+        $users = User::search($request)->get()->toArray();
+
+        // ファイル名
+        $filename = "users__".Carbon::now()->format('{YmdHis}').".csv";
+
+        // カラムの作成
+        $header = ['ID','名前','ログインID','メースアドレス','パスワード','作成日','更新日','性別','郵便番号','都道府県','住所','備考'];
+        $lists = [];
+        
+        //ファイルopen
+        $file = fopen('php://output', 'w');
+        if ($file) {
+            // カラムの書き込み
+            mb_convert_variables('SJIS', 'UTF-8', $header);
+            fputcsv($file, $header);
+            
+            // データの書き込み
+            foreach ($users as $user) {
+                    $row = '"';
+                    $row.= implode('","', $user);
+                    $row.= '"';
+                    $row.= "\n";
+                    $lists[] = $row;
+            }
+            foreach($lists as $list){
+                mb_convert_variables('SJIS', 'UTF-8', $list);
+                fwrite($file, $list);
+            }
+        }
+        // ファイルclose
+        fclose($file);
+
+    // HTTPヘッダ
+     header("Content-Type: application/octet-stream");
+     header('Content-Disposition: attachment; filename='.$filename);
+    }
 }
