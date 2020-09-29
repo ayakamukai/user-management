@@ -78,7 +78,7 @@
                 <div class="form-group text-center m-4">
                   <button type="submit" class="btn btn-info col-2 mr-2" id="search_btn">検索</button>
               </form>
-                <a href="{{ route('index') }}"><button class="btn btn-light col-2" onClick="jClear();">クリア</button></a>
+                <a href="{{ route('index') }}" class="btn btn-light col-2">クリア</a>
               </div>
         </div>
 
