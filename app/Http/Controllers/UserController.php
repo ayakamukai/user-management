@@ -18,9 +18,6 @@ class UserController extends Controller
     $users = User::search($request)->paginate(10);
     $results = User::search($request)->count();
 
-    
-    // $users = $query->paginate(10);
-
     // 条件キー
     $name_key = $request->query('name_key'); 
     $id_key = $request->query('id_key');
@@ -32,9 +29,8 @@ class UserController extends Controller
     //戻る用パラメータのセッション
     $back = http_build_query($request->query());
     session(['back' => $back]);
-    $back_link = session('back');
 
-        return view('user/index', ['users' => $users, 'name_key' => $name_key, 'id_key' => $id_key, 'sex_key' => $sex_key, 'pref_key' => $pref_key, 'from_key' => $from_key, 'until_key' => $until_key, 'results' => $results, 'back_link' => $back_link]);
+        return view('user/index', ['users' => $users, 'name_key' => $name_key, 'id_key' => $id_key, 'sex_key' => $sex_key, 'pref_key' => $pref_key, 'from_key' => $from_key, 'until_key' => $until_key, 'results' => $results]);
     }
 
     //登録
@@ -131,7 +127,7 @@ class UserController extends Controller
     //CSVダウンロード
     public function export(Request $request)
     {
-        //ユーザー情報(仮)
+        //ユーザー情報
         $users = User::search($request)->get()->toArray();
 
         // ファイル名
@@ -143,29 +139,29 @@ class UserController extends Controller
         
         //ファイルopen
         $file = fopen('php://output', 'w');
-        if ($file) {
-            // カラムの書き込み
+        if($file){
+            //カラムの書き込み
             mb_convert_variables('SJIS', 'UTF-8', $header);
             fputcsv($file, $header);
             
-            // データの書き込み
+            //データの書き込み
             foreach ($users as $user) {
-                    $row = '"';
-                    $row.= implode('","', $user);
-                    $row.= '"';
-                    $row.= "\n";
-                    $lists[] = $row;
+                $row = '"';
+                $row.= implode('","', $user);
+                $row.= '"';
+                $row.= "\n";
+                $lists[] = $row;
             }
             foreach($lists as $list){
                 mb_convert_variables('SJIS', 'UTF-8', $list);
                 fwrite($file, $list);
             }
         }
-        // ファイルclose
+        //ファイルclose
         fclose($file);
 
-    // HTTPヘッダ
-     header("Content-Type: application/octet-stream");
-     header('Content-Disposition: attachment; filename='.$filename);
+        //HTTPヘッダ
+        header("Content-Type: application/octet-stream");
+        header('Content-Disposition: attachment; filename='.$filename);
     }
 }
