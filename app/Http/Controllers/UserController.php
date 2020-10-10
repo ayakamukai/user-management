@@ -8,6 +8,7 @@ use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\User;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class UserController extends Controller
 {
@@ -127,41 +128,45 @@ class UserController extends Controller
     //CSVダウンロード
     public function export(Request $request)
     {
-        //ユーザー情報
-        $users = User::search($request)->get()->toArray();
+        //ファイル名
+        $filename = "users_".Carbon::now()->format('YmdHis').".csv";
 
-        // ファイル名
-        $filename = "users__".Carbon::now()->format('{YmdHis}').".csv";
+        return new StreamedResponse (function() use ($request){
+ 
+            //ユーザー情報
+            $users = User::search($request)->get()->toArray();
 
-        // カラムの作成
-        $header = ['ID','名前','ログインID','メースアドレス','パスワード','作成日','更新日','性別','郵便番号','都道府県','住所','備考'];
-        $lists = [];
-        
-        //ファイルopen
-        $file = fopen('php://output', 'w');
-        if($file){
-            //カラムの書き込み
-            mb_convert_variables('SJIS', 'UTF-8', $header);
-            fputcsv($file, $header);
+            //カラムの作成
+            $header = ['ID','名前','ログインID','メースアドレス','パスワード','作成日','更新日','性別','郵便番号','都道府県','住所','備考'];
+            $lists = [];
             
-            //データの書き込み
-            foreach ($users as $user) {
-                $row = '"';
-                $row.= implode('","', $user);
-                $row.= '"';
-                $row.= "\n";
-                $lists[] = $row;
+            //ファイルopen
+            $file = fopen('php://output', 'w');
+            if($file){
+                //カラムの書き込み
+                fputcsv($file, $header);
+                
+                //データの書き込み
+                foreach ($users as $user) {
+                    $row = '"';
+                    $row.= implode('","', $user);
+                    $row.= '"';
+                    $row.= "\n";
+                    $lists[] = $row;
+                }
+                foreach($lists as $list){
+                    fwrite($file, $list);
+                }
             }
-            foreach($lists as $list){
-                mb_convert_variables('SJIS', 'UTF-8', $list);
-                fwrite($file, $list);
-            }
-        }
-        //ファイルclose
-        fclose($file);
-
-        //HTTPヘッダ
-        header("Content-Type: application/octet-stream");
-        header('Content-Disposition: attachment; filename='.$filename);
+            //ファイルclose
+            fclose($file);
+        },
+        200,
+        [
+            //HTTPヘッダ
+            "Content-Type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=".$filename
+        ]
+        );
     }
 }
