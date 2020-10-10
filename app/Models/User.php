@@ -21,7 +21,7 @@ class User extends Model
         $this->attributes['note'] = e($value);
     }
 
-    Public static function search($request){
+    Public static function scopeSearch($query, $request){
     
       $name_key = $request->input('name_key'); 
       $id_key = $request->input('id_key');
@@ -31,7 +31,6 @@ class User extends Model
       $until_key = $request->input('until_key');
 
       //検索
-      $query = User::query();
       if(!empty($name_key)){
         $query->where('name', 'like', '%'.$name_key.'%');
       }
