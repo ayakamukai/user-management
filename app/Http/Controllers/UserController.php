@@ -137,7 +137,7 @@ class UserController extends Controller
             $users = User::search($request)->get()->toArray();
 
             //カラムの作成
-            $header = ['ID','名前','ログインID','メースアドレス','パスワード','作成日','更新日','性別','郵便番号','都道府県','住所','備考'];
+            $header = ['ID','名前','ログインID','メースアドレス','作成日','更新日','性別','郵便番号','都道府県','住所','備考'];
             $lists = [];
             
             //ファイルopen
@@ -148,10 +148,13 @@ class UserController extends Controller
                 
                 //データの書き込み
                 foreach ($users as $user) {
+                  unset($user['password']);
+                  $user = array_map(function ($user) {
+                      return $user = str_replace('"', '""', $user);
+                    }, $user);
                     $row = '"';
                     $row.= implode('","', $user);
-                    $row.= '"';
-                    $row.= "\n";
+                    $row.= '"'."\n";
                     $lists[] = $row;
                 }
                 foreach($lists as $list){
