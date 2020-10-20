@@ -77,9 +77,9 @@
 
                 <div class="form-group text-center m-4">
                   <button type="submit" class="btn btn-info col-2 mr-2" id="search_btn">検索</button>
-                  <button type="button" class="btn btn-light col-2" onClick="jClear();">クリア</button>
-                </div>
               </form>
+                <a href="{{ route('index') }}" class="btn btn-light col-2">クリア</a>
+              </div>
         </div>
 
       <!-- アラート -->
@@ -99,6 +99,18 @@
         <div class="row">
           <div class="col-2 mb-3">
             <h5>{{ $results }}件</h5>
+          </div>
+          <div class="col-10">
+            <form action="{{ route('export') }}" method="post">
+            {{ csrf_field() }}
+              <input type="hidden" name="name_key" value="{{ isset($name_key) ? $name_key : ''}}"/>
+              <input type="hidden" name="id_key" value="{{ isset($id_key) ? $id_key : ''}}"/>
+              <input type="hidden" name="sex_key" value="{{ isset($sex_key) ? $sex_key : ''}}">
+              <input type="hidden" name="pref_key" value="{{ isset($pref_key) ? $pref_key : ''}}">
+              <input type="hidden" name="from_key" value="{{ isset($from_key) ? $from_key : ''}}">
+              <input type="hidden" name="until_key" value="{{ isset($until_key) ? $suntilkey : ''}}">
+              <button class="btn btn-success float-right">CSVダウンロード</button>
+            </form>
           </div>
         </div>
 
@@ -142,7 +154,7 @@
       　@endif
       </div>
     </div>
-    <div class="pagination justify-content-center">{{ $users->appends(['name_key' => $name_key, 'id_key' => $id_key, 'sex_key' => $sex_key, 'pref_key' => $pref_key, 'from_key' => $from_key, 'until_key' => $until_key])->links() }}</div>
+    <div class="pagination justify-content-center">{{ $users->appends(request()->all())->links() }}</div>
   </div>
 </div>
 
@@ -153,18 +165,6 @@ $('.delete').click(function(){
         return false;
     }
 });
-
-//クリア
-function jClear() {
-  document.forms[0].name_key.value = "";
-  document.forms[0].id_key.value = "";
-  document.forms[0].sex_key[0].checked = false;
-  document.forms[0].sex_key[1].checked = false;
-  var obj = document.getElementById('pref_key'); 
-  obj.selectedIndex = "#null";
-  document.forms[0].from_key.value = "";
-  document.forms[0].until_key.value = "";
-  }
 
 </script>
 @endsection
