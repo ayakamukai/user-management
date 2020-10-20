@@ -15,6 +15,8 @@
 //     return view('welcome');
 // });
 
+Route::get('/getLogin', 'UserController@getLogin')->name('getLogin');
+Route::get('/postLogin', 'UserController@postLogin')->name('postLogin');
 Route::get('/', 'UserController@index')->name('index');
 Route::get('/create', 'UserController@create')->name('create');
 Route::post('/store', 'UserController@store')->name('store');

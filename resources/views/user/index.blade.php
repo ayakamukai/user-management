@@ -1,6 +1,6 @@
 @extends('user.template')
 @section('content')
-
+@include('user.header')
 <div class="container">
   <div class="m-2 p-3">
     <h4 class="mb-5">ユーザー一覧</h4>
