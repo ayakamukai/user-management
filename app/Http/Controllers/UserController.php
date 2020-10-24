@@ -14,38 +14,37 @@ use Auth;
 class UserController extends Controller
 {
     //ログイン
-    public function getLogin()
+    public function login()
     {
         return view('user/login');
     }
 
     public function postLogin(Request $request)
     {
+        $registerDate = User::where('login_id', $request->login_id)->value('created_at');
+        $lastYear = Carbon::today()->subYear();
+
+        if($registerDate <= $lastYear){
+            // dd($registerDate);
+            return redirect()->route('login')->with(['loginError' => '登録日が古すぎます。再登録して下さい']);
+        }
         if(Auth::attempt([
             'login_id' => $request->login_id, 
-            'password' => $request->password])){   
-                $users = User::search($request)->paginate(10);
-                return redirect()->route('index');
-        }else{
-                return redirect()->route('getLogin')->withErrors(['loginError' => 'ユーザー情報が間違っています']);
+            'password' => $request->password,])){
+            return redirect()->route('index');
+        } else {
+            return redirect()->back()->with(['loginError' => 'ログイン情報が間違っています']);
         }
-
-
-        $this->validate($request,[
-            'email' => 'email|required',
-            'password' => 'required|min:4'
-            ]);
-           
-            if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
-            return redirect()->route('user.profile');
-            }
-            return redirect()->back();
-   
     }
+
+    public function getLogout(){
+        Auth::logout();
+        return redirect()->route('login');
+        }
 
     public function index(Request $request)
     {
-    
+
     //検索メソッド
     $users = User::search($request)->paginate(10);
     $results = User::search($request)->count();

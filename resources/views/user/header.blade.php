@@ -1,8 +1,9 @@
 <!-- Styles -->
 <style>
-  .logout{
-    color: red;
-  }
+  .logout:hover{
+  color: #F00;
+  text-decoration: underline;
+}
 
 </style>
 
@@ -15,11 +16,13 @@
   <div class="collapse navbar-collapse" id="Navber">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active">
-        <p class="nav-link">ログイン者：田中</p>
+        <span class="nav-link">ログイン者：{{ Auth::user()->name }}</span>
       </li>
+      @if(Auth::check())
       <li class="nav-item active">
-        <a class="nav-link logout" href="#">ログアウト</a>
+        <a class="nav-link logout" href="{{ route('logout') }}">ログアウト</a>
       </li>
+      @endif
     </ul>
 
   </div><!-- /.navbar-collapse -->

@@ -7,11 +7,12 @@
     <h6 class="m-3">ログイン</h6>
 
     <!-- エラー -->
-    @if(!empty($errors))
-      <div class="alert alert-danger">
-        {{ $errors }}
-      </div>
+    @if (session('loginError'))
+        <div class="alert alert-danger">
+          {{ session('loginError') }}
+        </div>
     @endif
+
 
     <form action="{{ route('postLogin') }}" method="post">
     {{ csrf_field() }}
@@ -20,7 +21,7 @@
           <label class="control-label">ログインID</label>
         </div>
         <div class="col-3">
-          <input type="text" class="form-control" name="login_id" value="{{ isset($login_id) ? $login_id : ''}}"/>
+          <input type="text" class="form-control" name="login_id" value=""/>
         </div>
       </div>
       <div class="row mb-3">
@@ -28,7 +29,7 @@
           <label class="control-label">パスワード</label>
         </div>
         <div class="col-3">
-          <input type="password" class="form-control" name="password" value="{{ isset($password) ? $password : ''}}"/>
+          <input type="password" class="form-control" name="password" value=""/>
         </div>
       </div>
       <div class="form-group text-center m-4">
