@@ -6,8 +6,14 @@
   <div class="border mb-5">
     <h6 class="m-3">ログイン</h6>
 
-    <!-- エラー -->
-    @if (session('loginError'))
+    @if ($errors->has('loginError'))
+        <div class="alert alert-danger">
+          {{ $errors->first('loginError') }}
+        </div>
+    @endif
+
+
+    @if (session(''))
         <div class="alert alert-danger">
           {{ session('loginError') }}
         </div>
@@ -21,7 +27,7 @@
           <label class="control-label">ログインID</label>
         </div>
         <div class="col-3">
-          <input type="text" class="form-control" name="login_id" value=""/>
+          <input type="text" class="form-control" name="login_id" value="{{ old('login_id') }}">
         </div>
       </div>
       <div class="row mb-3">
@@ -29,7 +35,7 @@
           <label class="control-label">パスワード</label>
         </div>
         <div class="col-3">
-          <input type="password" class="form-control" name="password" value=""/>
+          <input type="password" class="form-control" name="password">
         </div>
       </div>
       <div class="form-group text-center m-4">
