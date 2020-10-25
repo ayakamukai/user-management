@@ -21,26 +21,31 @@ class UserController extends Controller
 
     public function postLogin(Request $request)
     {
-        $registerDate = User::where('login_id', $request->login_id)->value('created_at');
         $lastYear = Carbon::today()->subYear();
-
-        if($registerDate <= $lastYear){
-            // dd($registerDate);
-            return redirect()->route('login')->with(['loginError' => '登録日が古すぎます。再登録して下さい']);
+        $registerDate = User::where('login_id', $request->login_id)->value('created_at');
+        if(is_null($registerDate)){
+            return redirect()->back()->withInput()->withErrors(['loginError' => 'ログイン情報が間違っています']);
         }
+        if($registerDate <= $lastYear){
+            return redirect()->back()->withInput()->withErrors(['loginError' => 'ログインできません']);
+        }
+
+        //ログイン
         if(Auth::attempt([
             'login_id' => $request->login_id, 
             'password' => $request->password,])){
-            return redirect()->route('index');
+            return redirect()->intended();
         } else {
-            return redirect()->back()->with(['loginError' => 'ログイン情報が間違っています']);
+            return redirect()->back()->withInput()->withErrors(['loginError' => 'ログイン情報が間違っています']);
+
         }
     }
 
-    public function getLogout(){
+    public function getLogout()
+    {
         Auth::logout();
         return redirect()->route('login');
-        }
+    }
 
     public function index(Request $request)
     {
