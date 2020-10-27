@@ -135,11 +135,15 @@
               <td><a href="{{ route('show', ['id' => $user->id]) }}">詳細</a></td>
               <td><a href="{{ route('edit', ['id' => $user->id]) }}">編集</a></td>
               <td>
+              @if($user->id == Auth::id())
+                <span>削除</span>
+              @else
                 <form action="{{ route('delete', ['id' => $user->id]) }}" method="post">
                   {{ csrf_field() }}
                   {{ method_field('delete') }}
-                  <input type="submit" value="削除" class="delete" @if($user->id == Auth::id()) disabled="disabled" @endif>
+                  <input type="submit" value="削除" class="delete">
                 </form>
+              @endif
               </td>
             </tr>
             @endforeach
