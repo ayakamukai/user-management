@@ -15,6 +15,12 @@
 
   <div class="collapse navbar-collapse" id="Navber">
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item active bookmark">
+      <a class="nav-link" href="{{ route('index') }}">ユーザー</a>
+      </li>
+      <li class="nav-item active bookmark">
+      <a class="nav-link" href="{{ route('bookmark.index', ['id' => Auth::id()]) }}">ブックマーク</a>
+      </li>
       <li class="nav-item active">
         <span class="nav-link">ログイン者：{{ Auth::user()->name }}</span>
       </li>
