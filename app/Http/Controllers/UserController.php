@@ -9,12 +9,47 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\User;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Auth;
 
 class UserController extends Controller
 {
+    //ログイン
+    public function login()
+    {
+        return view('user/login');
+    }
+
+    public function postLogin(Request $request)
+    {
+        $lastYear = Carbon::today()->subYear();
+        $registerDate = User::where('login_id', $request->login_id)->value('created_at');
+        if(is_null($registerDate)){
+            return redirect()->back()->withInput()->withErrors(['loginError' => 'ログイン情報が間違っています']);
+        }
+        if($registerDate <= $lastYear){
+            return redirect()->back()->withInput()->withErrors(['loginError' => 'ログインできません']);
+        }
+
+        //ログイン
+        if(Auth::attempt([
+            'login_id' => $request->login_id, 
+            'password' => $request->password,])){
+            return redirect()->intended();
+        } else {
+            return redirect()->back()->withInput()->withErrors(['loginError' => 'ログイン情報が間違っています']);
+
+        }
+    }
+
+    public function getLogout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
+    }
+
     public function index(Request $request)
     {
-    
+
     //検索メソッド
     $users = User::search($request)->paginate(10);
     $results = User::search($request)->count();

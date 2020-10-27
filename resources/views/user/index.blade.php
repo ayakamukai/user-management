@@ -1,4 +1,5 @@
 @extends('user.template')
+@include('user.header')
 @section('content')
 
 <div class="container">
