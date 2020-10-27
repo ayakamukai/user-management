@@ -157,7 +157,7 @@ class UserController extends Controller
         }
 
         try {
-            $user = User::where('id', '<>', $userId)->findOrFail($id);
+            $user = User::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return redirect()->route('index')->withErrors(['ID' => '指定したユーザーが存在しません']);
         }
