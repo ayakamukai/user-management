@@ -28,6 +28,12 @@
              text-decoration: underline;
             }
 
+            .delete:disabled{
+             text-decoration: none;
+             background-color:transparent;
+             color: #b5b9bd;
+            }
+
         </style>
     </head>
     <body>

@@ -138,7 +138,7 @@
                 <form action="{{ route('delete', ['id' => $user->id]) }}" method="post">
                   {{ csrf_field() }}
                   {{ method_field('delete') }}
-                  <input type="submit" value="削除" class="delete">
+                  <input type="submit" value="削除" class="delete" @if($user->id == Auth::id()) disabled="disabled" @endif>
                 </form>
               </td>
             </tr>
