@@ -19,8 +19,8 @@
         <span class="nav-link">ログイン者：{{ Auth::user()->name }}</span>
       </li>
       @if(Auth::check())
-      <li class="nav-item active">
-        <a class="nav-link logout" href="{{ route('logout') }}">ログアウト</a>
+      <li class="nav-item active logout">
+        <a class="nav-link" href="{{ route('logout') }}">ログアウト</a>
       </li>
       @endif
     </ul>

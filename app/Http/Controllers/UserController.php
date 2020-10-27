@@ -150,6 +150,12 @@ class UserController extends Controller
     //削除
     public function delete($id)
     {
+        //自分だったらリダイレクト
+        $userId = Auth::id();
+        if($userId == $id){
+            return redirect()->route('index')->withErrors(['ID' => 'ログイン中のユーザーは削除できません']);
+        }
+
         try {
             $user = User::findOrFail($id);
         } catch (ModelNotFoundException $e) {
