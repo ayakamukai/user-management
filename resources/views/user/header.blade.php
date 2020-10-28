@@ -1,6 +1,6 @@
 <!-- Styles -->
 <style>
-  .logout:hover{
+  .link:hover{
   color: #F00;
   text-decoration: underline;
 }
@@ -15,17 +15,17 @@
 
   <div class="collapse navbar-collapse" id="Navber">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active bookmark">
+      <li class="nav-item active link">
       <a class="nav-link" href="{{ route('index') }}">ユーザー</a>
       </li>
-      <li class="nav-item active bookmark">
+      <li class="nav-item active link">
       <a class="nav-link" href="{{ route('bookmark.index', ['id' => Auth::id()]) }}">ブックマーク</a>
       </li>
       <li class="nav-item active">
         <span class="nav-link">ログイン者：{{ Auth::user()->name }}</span>
       </li>
       @if(Auth::check())
-      <li class="nav-item active logout">
+      <li class="nav-item active link">
         <a class="nav-link" href="{{ route('logout') }}">ログアウト</a>
       </li>
       @endif
