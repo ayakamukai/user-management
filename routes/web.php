@@ -34,7 +34,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::put('/update/{id}', 'UserController@update')->name('update');
     Route::delete('/delete/{id}', 'UserController@delete')->name('delete');
     Route::post('/export', 'UserController@export')->name('export');
-});
 
     //ブックマーク管理
     Route::get('/bookmark/{id}', 'BookmarkController@index')->name('bookmark.index');
@@ -44,3 +43,5 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/bookmark/edit/{id}', 'BookmarkController@edit')->name('bookmark.edit');
     Route::put('/bookmark/update/{id}', 'BookmarkController@update')->name('bookmark.update');
     Route::delete('/bookmark/delete/{id}', 'BookmarkController@delete')->name('bookmark.delete');
+});
+
