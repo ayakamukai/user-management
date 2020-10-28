@@ -7,8 +7,12 @@
     <h4 class="mb-5">ブックマーク一覧</h4>
 
     <div class="offset-9 col-3">
+    @if($userId == Auth::id())
       <a href="{{ route('bookmark.create', ['id' => $userId ]) }}">新規登録</a>
+    @else
+    @endif
     </div>
+    
     <div class="inner-container">
       <div class="m-2 p-3">
 
