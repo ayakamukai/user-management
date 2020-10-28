@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Auth;
+use App\Models\Bookmark;
 
 class UserController extends Controller
 {
