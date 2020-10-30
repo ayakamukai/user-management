@@ -25,7 +25,7 @@ class BookmarkRequest extends FormRequest
     {
         return [
             'site_name'=> ['required','max:255'],
-            'url'=> ['required','max:255','url'],
+            'url'=> ['required','max:3000','url'],
         ];
     }
 
