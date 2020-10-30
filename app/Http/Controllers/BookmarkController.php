@@ -14,13 +14,15 @@ class BookmarkController extends Controller
   
     public function index($userId)
     {
+
         try {
-            $bookmarks = User::findOrFail($userId)->bookmark()->get();
+            $user = User::findOrFail($userId)->get();
+            $bookmarks = $user->bookmark()->get();
             $results = $bookmarks->count();
         } catch (ModelNotFoundException $e) {
             return redirect()->route('index')->withErrors(['ID' => '指定したユーザーが存在しません']);
         }
-        return view('bookmark/index',['bookmarks' => $bookmarks, 'results' => $results, 'userId' => $userId]);
+        return view('bookmark/index',['bookmarks' => $bookmarks, 'results' => $results, 'user' => $user]);
     }
 
     public function create($userId)

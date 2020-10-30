@@ -4,13 +4,14 @@
 
 <div class="container">
   <div class="m-2 p-3">
-    <h4 class="mb-5">ブックマーク一覧</h4>
+    <h4 class="mb-5"><span>{{ $user->name }}</span>のブックマーク一覧</h4>
 
     <div class="offset-9 col-3">
     @if($userId == Auth::id())
-      <a href="{{ route('bookmark.create', ['id' => $userId ]) }}">新規登録</a>
+      <a href="{{ route('bookmark.create', ['id' => $user->id ]) }}">新規登録</a>
     @else
     @endif
+      <a class="nav-link" href="{{ route('index') }}">ユーザー一覧へ戻る</a>
     </div>
     
     <div class="inner-container">
@@ -52,17 +53,17 @@
               <td>{{ $bookmark->id }}</td>
               <td>{{ $bookmark->site_name }}</td>
               <td>
-                @if($userId == Auth::id())<a href="{{ route('bookmark.show', ['id' => $bookmark->id]) }}">詳細</a>
+                @if($user->id == Auth::id())<a href="{{ route('bookmark.show', ['id' => $bookmark->id]) }}">詳細</a>
                 @else<span>詳細</span>
                 @endif
               </td>
               <td>
-                @if($userId == Auth::id())<a href="{{ route('bookmark.edit', ['id' => $bookmark->id]) }}">編集</a>
+                @if($user->id == Auth::id())<a href="{{ route('bookmark.edit', ['id' => $bookmark->id]) }}">編集</a>
                 @else<span>編集</span>
                 @endif
                 </td>
               <td>
-                @if($userId == Auth::id())
+                @if($user->id == Auth::id())
                 <form action="{{ route('bookmark.delete', ['id' => $bookmark->id]) }}" method="post">
                   {{ csrf_field() }}
                   {{ method_field('delete') }}
