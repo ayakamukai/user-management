@@ -14,34 +14,29 @@ class BookmarkController extends Controller
   
     public function index($userId)
     {
-
         try {
-            $user = User::findOrFail($userId)->get();
-            $bookmarks = $user->bookmark()->get();
-            $results = $bookmarks->count();
+            $user = User::findOrFail($userId);
         } catch (ModelNotFoundException $e) {
             return redirect()->route('index')->withErrors(['ID' => '指定したユーザーが存在しません']);
         }
-        return view('bookmark/index',['bookmarks' => $bookmarks, 'results' => $results, 'user' => $user]);
+        $bookmarks = $user->bookmark()->get();
+        $results = $bookmarks->count();
+
+        return view('bookmark/index', ['bookmarks' => $bookmarks, 'results' => $results, 'user' => $user]);
     }
 
-    public function create($userId)
+    public function create()
     {
-        //ログインユーザー以外のブックマークを登録しようとしたらリダイレクト
-        $loginUserId = Auth::id();
-        if($loginUserId !== (int) $userId){
-            return redirect()->route('bookmark.index',['loginUserId' => $loginUserId])->withErrors(['ID' => '自分のブックマークしか登録できません']);
-        }
-
-        $user = User::findOrFail($userId)->get();
-        return view('bookmark.create',['user' => $user, 'userId' => $userId]);
+        return view('bookmark.create');
     }
 
     //登録処理
-    public function store(BookmarkRequest $request, $userId)
+    public function store(BookmarkRequest $request)
     {
+        $userId = Auth::id();
+
         $bookmark = new Bookmark;
-        $bookmark->user_id = $request->user_id;
+        $bookmark->user_id = $userId;
         $bookmark->site_name = $request->site_name;
         $bookmark->url = $request->url;
         $bookmark->save();
@@ -50,80 +45,68 @@ class BookmarkController extends Controller
     }
    
     //詳細
-    public function show($id)
+    public function show($bookmarkId)
     {
-        $loginUserId = Auth::id();
-        try {
-            $bookmark = Bookmark::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            return redirect()->route('bookmark.index', ['loginUserId' => $loginUserId])->withErrors(['ID' => '指定したブックマークが存在しません']);
-        }
+        $userId = Auth::id();
 
-        //ログインユーザー以外のブックマークにアクセスしようとしたらリダイレクト
-        $bookmarkUser = Bookmark::findOrFail($id)->user_id;
-        if($loginUserId !== $bookmarkUser){
-            return redirect()->route('bookmark.index', ['loginUserId' => $loginUserId])->withErrors(['ID' => '自分のブックマークしか閲覧できません']);
-        }
+        $bookmark = Bookmark::where('user_id', $userId)->where('id', $bookmarkId)->first();
 
-        $user = $bookmark->user;
-        return view('bookmark/show', ['bookmark' => $bookmark, 'user' => $user]);
+        if(!empty($bookmark)){
+            return view('bookmark/show', ['bookmark' => $bookmark]);
+        }else{
+            return redirect()->route('bookmark.index', ['userId' => $userId])->withErrors(['ID' => '指定したブックマークが存在しません']);
+        }
     }
 
     //編集
-    public function edit($id)
+    public function edit($bookmarkId)
     {
-        $loginUserId = Auth::id();
-        try {
-            $bookmark = Bookmark::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            return redirect()->route('bookmark.index', ['loginUserId' => $loginUserId])->withErrors(['ID' => '指定したブックマークが存在しません']);
+        $userId = Auth::id();
+
+        $bookmark = Bookmark::where('user_id', $userId)->where('id', $bookmarkId)->first();
+
+        if(!empty($bookmark)){
+            return view('bookmark/edit', ['bookmark' => $bookmark]);
+        }else{
+            return redirect()->route('bookmark.index', ['userId' => $userId])->withErrors(['ID' => '指定したブックマークが存在しません']);
         }
 
-        //ログインユーザー以外のブックマークにアクセスしようとしたらリダイレクト
-        $bookmarkUser = Bookmark::findOrFail($id)->user_id;
-        if($loginUserId !== $bookmarkUser){
-            return redirect()->route('bookmark.index', ['loginUserId' => $loginUserId])->withErrors(['ID' => '自分のブックマークしか編集できません']);
-        }
-
-        $user = $bookmark->user;
-        return view('bookmark/edit', ['bookmark' => $bookmark, 'user' => $user]);
     }
 
     //更新
-    public function update(BookmarkRequest $request, $id)
+    public function update(BookmarkRequest $request, $bookmarkId)
     {
-        $loginUserId = Auth::id();
-        try {
-            $bookmark = Bookmark::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            return redirect()->route('bookmark.index', ['loginUserId' => $loginUserId])->withErrors(['ID' => '指定したブックマークが存在しません']);
-        }
-            $bookmark->user_id = $request->user_id;
+        $userId = Auth::id();
+
+        $bookmark = Bookmark::where('user_id', $userId)->where('id', $bookmarkId)->first();
+
+        if(!empty($bookmark)){
+
+            $bookmark->user_id = $userId;
             $bookmark->site_name = $request->site_name;
             $bookmark->url = $request->url;
             $bookmark->save();
-            $user = $bookmark->user;
-        return redirect()->route('bookmark.index', ['user' => $user])->with('success', '正常に更新されました！');
+
+            return redirect()->route('bookmark.index', ['userId' => $userId])->with('success', '正常に更新されました！');
+        }else{
+            return redirect()->route('bookmark.index', ['userId' => $userId])->withErrors(['ID' => '指定したブックマークが存在しません']);
+        }
     }
-   
+
+
     //削除
-    public function delete($id)
+    public function delete($bookmarkId)
     {
-        //ログインユーザー以外のブックマークを削除しようとしたらリダイレクト
-        $bookmarkUser = Bookmark::findOrFail($id)->user_id;
-        $loginUserId = Auth::id();
-        if($loginUserId !== $bookmarkUser){
-            return redirect()->route('bookmark.index',['loginUserId' => $loginUserId])->withErrors(['ID' => '自分のブックマークしか削除できません']);
+        $userId = Auth::id();
+
+        $bookmark = Bookmark::where('user_id', $userId)->where('id', $bookmarkId)->first();
+
+        if(!empty($bookmark)){
+            $bookmark->delete();
+            return redirect()->route('bookmark.index', ['userId' => $userId])->with('success', '正常に削除されました！');
+        }else{
+            return redirect()->route('bookmark.index', ['userId' => $userId])->withErrors(['ID' => '指定したブックマークが存在しません']);
         }
 
-        try {
-            $bookmark = Bookmark::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            return redirect()->route('bookmark.index', ['loginUserId' => $loginUserId])->withErrors(['ID' => '指定したブックマークが存在しません']);
-        }
-        $user = $bookmark->user;
-        $bookmark->delete();
-
-        return redirect()->route('bookmark.index', ['user' => $user])->with('success', '正常に削除されました！');
     }
 }
