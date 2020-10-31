@@ -35,6 +35,9 @@
           <div class="col-2 mb-3">
             <h5>{{ $results }}件</h5>
           </div>
+          <div class="offset-8 col-2">
+            <a href="{{ route('bookmark.create') }}">新規登録</a>
+          </div>
         </div>
 
         <table class="table table-bordered">

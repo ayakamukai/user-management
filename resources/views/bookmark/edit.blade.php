@@ -7,10 +7,11 @@
     <h4 class="mb-5">ブックマーク編集</h4>
 
     <div class="offset-9 col-3">
-      <a href="{{ route('bookmark.index', ['id' => $user->id ]) }}">一覧に戻る</a>
+      <a href="{{ route('bookmark.index', ['id' => Auth::id() ]) }}">一覧に戻る</a>
     </div>
     @if ($errors->any())
       <div class="alert alert-danger">エラーがありました！</div>
+      {{ var_dump($errors) }}
     @endif
 
     <div class="inner-container"> 

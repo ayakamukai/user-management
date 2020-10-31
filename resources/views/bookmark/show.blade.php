@@ -7,7 +7,7 @@
   <h4 class="mb-5">ブックマーク詳細</h4>
 
     <div class="offset-9 col-3">
-      <a href="{{ route('bookmark.index', ['id' => $user->id ]) }}">一覧に戻る</a>
+      <a href="{{ route('bookmark.index', ['id' => Auth::id() ]) }}">一覧に戻る</a>
     </div>
 
     @if (session('success'))
@@ -39,7 +39,6 @@
           {{ $bookmark->created_at->format('Y年n月j日') }}
         </div>
       </div>
-
     </div>
   </div>
 

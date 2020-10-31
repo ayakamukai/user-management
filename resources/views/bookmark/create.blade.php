@@ -7,7 +7,7 @@
     <h4 class="mb-5">ブックマーク登録</h4>
 
     <div class="offset-9 col-3">
-      <a href="{{ route('bookmark.index', ['id' => $userId]) }}">一覧に戻る</a>
+      <a href="{{ route('bookmark.index', ['id' => Auth::id()]) }}">一覧に戻る</a>
     </div>
     @if ($errors->any())
       <div class="alert alert-danger">エラーがありました！</div>
@@ -15,9 +15,8 @@
 
     <div class="inner-container"> 
       <div class="m-2 p-3 bg-white">
-        <form action="{{ route('bookmark.store',['id' => $userId]) }}" method="post">
+        <form action="{{ route('bookmark.store') }}" method="post">
         {{ csrf_field() }}
-        <input type="hidden" name="user_id" value="{{ $userId }}">
 
         <div class="form-group row">
           <label class="offset-1 col-2">サイト名</label>

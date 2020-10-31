@@ -36,12 +36,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/export', 'UserController@export')->name('export');
 
     //ブックマーク管理
-    Route::get('/bookmark/{id}', 'BookmarkController@index')->name('bookmark.index');
-    Route::get('/bookmark/create/{id}', 'BookmarkController@create')->name('bookmark.create');
-    Route::post('/bookmark/store/{id}', 'BookmarkController@store')->name('bookmark.store');
-    Route::get('/bookmark/show/{id}', 'BookmarkController@show')->name('bookmark.show');
-    Route::get('/bookmark/edit/{id}', 'BookmarkController@edit')->name('bookmark.edit');
-    Route::put('/bookmark/update/{id}', 'BookmarkController@update')->name('bookmark.update');
-    Route::delete('/bookmark/delete/{id}', 'BookmarkController@delete')->name('bookmark.delete');
+    Route::prefix('user')->group(function () {
+        Route::group(['as' => 'bookmark.'], function () {
+            Route::get('/{user_id}/bookmark', 'BookmarkController@index')->name('index');
+            Route::get('/bookmark/create', 'BookmarkController@create')->name('create');
+            Route::post('/bookmark/store', 'BookmarkController@store')->name('store');
+            Route::get('/bookmark/show/{bookmark_id}', 'BookmarkController@show')->name('show');
+            Route::get('/bookmark/edit/{bookmark_id}', 'BookmarkController@edit')->name('edit');
+            Route::put('/bookmark/update/{bookmark_id}', 'BookmarkController@update')->name('update');
+            Route::delete('/bookmark/delete/{bookmark_id}', 'BookmarkController@delete')->name('delete');
+        });
+    });
 });
-
