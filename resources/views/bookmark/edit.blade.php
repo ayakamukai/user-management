@@ -19,7 +19,6 @@
         <form action="{{ route('bookmark.update', $bookmark->id) }}" method="post">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
-        <input type="hidden" name="user_id" value="{{ $user->id }}">
 
         <div class="form-group row">
           <label class="offset-1 col-2">サイト名</label>
@@ -38,7 +37,7 @@
         <div class="form-group row">
           <label class="offset-1 col-2">サイトURL</label>
           <div class="col-6">
-            <textarea class="form-control @if($errors->has('note')) is-invalid @endif" name="note" rows="5">{{ old('url', $bookmark->url) }}</textarea>
+            <textarea class="form-control @if($errors->has('url')) is-invalid @endif" name="url" rows="5">{{ old('url', $bookmark->url) }}</textarea>
             @if ($errors->has('url'))
               @foreach($errors->get('url') as $message)
                 <div class="invalid-feedback">

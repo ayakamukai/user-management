@@ -35,7 +35,7 @@
         <div class="form-group row">
           <label class="offset-1 col-2">サイトURL</label>
           <div class="col-6">
-            <textarea class="form-control @if($errors->has('url')) is-invalid @endif" name="url">{{ old('url') }}</textarea>
+            <textarea class="form-control @if($errors->has('url')) is-invalid @endif" name="url" rows="5">{{ old('url') }}</textarea>
             @if ($errors->has('url'))
               @foreach($errors->get('url') as $message)
                 <div class="invalid-feedback">
