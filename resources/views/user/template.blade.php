@@ -27,6 +27,7 @@
             .delete:hover{
              text-decoration: underline;
             }
+
         </style>
     </head>
     <body>

@@ -9,19 +9,23 @@ class User extends Model
 {
     protected $guarded = ['id'];
 
-    Public function setPasswordAttribute($value){
+    Public function setPasswordAttribute($value)
+    {
         $this->attributes['password'] = Hash::make($value);
     }
 
-    Public function setZipAttribute($value){
+    Public function setZipAttribute($value)
+    {
         $this->attributes['zip'] = str_replace('-', '', $value);
     }
 
-    Public function setNoteAttribute($value){
+    Public function setNoteAttribute($value)
+    {
         $this->attributes['note'] = e($value);
     }
 
-    Public static function scopeSearch($query, $request){
+    Public static function scopeSearch($query, $request)
+    {
     
       $name_key = $request->input('name_key'); 
       $id_key = $request->input('id_key');
@@ -51,7 +55,12 @@ class User extends Model
           $query->where('created_at', '<=', $until_key);
       }
 
-    return $query;
+      return $query;
+    }
+
+    public function bookmark()
+    {
+      return $this->hasMany('App\Models\Bookmark');
     }
 
 }

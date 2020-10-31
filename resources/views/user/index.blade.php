@@ -124,6 +124,7 @@
               <th scope="col-2"></th>
               <th scope="col-2"></th>
               <th scope="col-2"></th>
+              <th scope="col-2"></th>
             </tr>
           </thead>
           <tbody>
@@ -132,6 +133,7 @@
               <td>{{ $user->id }}</td>
               <td>{{ $user->login_id }}</td>
               <td>{{ $user->name }}</td>
+              <td><a href="{{ route('bookmark.index', ['id' => $user->id]) }}">BM</a></td>
               <td><a href="{{ route('show', ['id' => $user->id]) }}">詳細</a></td>
               <td><a href="{{ route('edit', ['id' => $user->id]) }}">編集</a></td>
               <td>
@@ -141,7 +143,7 @@
                 <form action="{{ route('delete', ['id' => $user->id]) }}" method="post">
                   {{ csrf_field() }}
                   {{ method_field('delete') }}
-                  <input type="submit" value="削除" class="delete">
+                  <input type="submit" value="削除" class="delete" @if($user->id == Auth::id()) disabled="disabled" @endif>
                 </form>
               @endif
               </td>
