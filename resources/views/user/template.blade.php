@@ -27,16 +27,7 @@
             .delete:hover{
              text-decoration: underline;
             }
-<<<<<<< HEAD
 
-            .delete:disabled{
-             text-decoration: none;
-             background-color:transparent;
-             color: #b5b9bd;
-            }
-
-=======
->>>>>>> master
         </style>
     </head>
     <body>

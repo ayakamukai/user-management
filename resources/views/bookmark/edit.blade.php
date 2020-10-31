@@ -11,7 +11,6 @@
     </div>
     @if ($errors->any())
       <div class="alert alert-danger">エラーがありました！</div>
-      {{ var_dump($errors) }}
     @endif
 
     <div class="inner-container"> 
