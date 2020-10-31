@@ -26,7 +26,7 @@ class ChangeUrlColumnOnBookmarksTable20201020 extends Migration
     public function down()
     {
         Schema::table('bookmarks', function (Blueprint $table) {
-            $table->string('path', 255)->change();
+            $table->string('url', 255)->change();
         });
     }
 }
